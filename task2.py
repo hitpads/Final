@@ -5,17 +5,14 @@ import tkinter as tk
 from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-
-# Define function and its derivative
+# define function and its derivative
 def f(x):
     return x ** 2 - 4 * np.sin(x)
-
 
 def df(x):
     return 2 * x - 4 * np.cos(x)
 
-
-# False Position Method
+# false position method
 def false_position(a, b, tol=1e-6, max_iter=100):
     fa = f(a)
     fb = f(b)
@@ -33,8 +30,7 @@ def false_position(a, b, tol=1e-6, max_iter=100):
             a, fa = c, fc
     return c, max_iter
 
-
-# Newton-Raphson Method
+# newton-raphson method
 def newton_raphson(x0, tol=1e-6, max_iter=100):
     for i in range(max_iter):
         fx = f(x0)
@@ -44,27 +40,26 @@ def newton_raphson(x0, tol=1e-6, max_iter=100):
         x0 = x0 - fx / dfx
     return x0, max_iter
 
-
-# Function to execute calculations and plot graph
+# function to execute calculations and plot graph
 def execute_calculations():
     try:
         a = float(entry_a.get())
         b = float(entry_b.get())
         initial_guess = float(entry_initial_guess.get())
 
-        # False Position Method
+        # false position method
         root_fp, iter_fp = false_position(a, b)
         rel_error_fp = abs(f(root_fp))
 
-        # Newton-Raphson Method
+        # newton-raphson method
         root_nr, iter_nr = newton_raphson(initial_guess)
         rel_error_nr = abs(f(root_nr))
 
-        # Generate x values for plotting
+        # generate x values for plotting
         x_values = np.linspace(a, b, 100)
         y_values = f(x_values)
 
-        # Plot the function
+        # plot the function
         fig, ax = plt.subplots(figsize=(8, 5))
         ax.plot(x_values, y_values, label=r'$f(x) = x^2 - 4\sin(x)$', color='blue')
         ax.axhline(0, color='black', linewidth=1)
@@ -76,12 +71,12 @@ def execute_calculations():
         ax.legend()
         ax.grid(True)
 
-        # Display the plot in the Tkinter window
+        # display the plot in the tkinter window
         canvas = FigureCanvasTkAgg(fig, master=root)
         canvas.draw()
         canvas.get_tk_widget().grid(row=6, column=0, columnspan=2, padx=5, pady=5)
 
-        # Display results
+        # display results
         result_text.set(
             f"False Position Method:\nRoot: {root_fp:.6f}\nIterations: {iter_fp}\nRelative Error: {rel_error_fp:.6f}\n\n"
             f"Newton-Raphson Method:\nRoot: {root_nr:.6f}\nIterations: {iter_nr}\nRelative Error: {rel_error_nr:.6f}")
@@ -90,8 +85,7 @@ def execute_calculations():
     except Exception as e:
         result_text.set("Invalid input. Please enter valid numbers.")
 
-
-# Function to use predefined data
+# function to use predefined data
 def use_predefined_data():
     entry_a.delete(0, tk.END)
     entry_a.insert(0, "0")
@@ -101,12 +95,11 @@ def use_predefined_data():
     entry_initial_guess.insert(0, "1.5")
     execute_calculations()
 
-
-# Set up the GUI
+# set up the gui
 root = tk.Tk()
 root.title("Computational Mathematics - Task 2")
 
-# Input fields
+# input fields
 tk.Label(root, text="a:").grid(row=0, column=0, padx=5, pady=5)
 entry_a = tk.Entry(root)
 entry_a.grid(row=0, column=1, padx=5, pady=5)
@@ -119,18 +112,18 @@ tk.Label(root, text="Initial Guess:").grid(row=2, column=0, padx=5, pady=5)
 entry_initial_guess = tk.Entry(root)
 entry_initial_guess.grid(row=2, column=1, padx=5, pady=5)
 
-# Execute button
+# execute button
 execute_button = tk.Button(root, text="Execute", command=execute_calculations)
 execute_button.grid(row=3, column=0, columnspan=2, padx=5, pady=5)
 
-# Predefined data button
+# predefined data button
 predefined_button = tk.Button(root, text="Use Predefined Data", command=use_predefined_data)
 predefined_button.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
 
-# Result display
+# result display
 result_text = tk.StringVar()
 result_label = tk.Label(root, textvariable=result_text, justify="left")
 result_label.grid(row=5, column=0, columnspan=2, padx=5, pady=5)
 
-# Run the GUI loop
+# run the gui loop
 root.mainloop()

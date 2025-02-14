@@ -5,28 +5,28 @@ import tkinter as tk
 from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-# Define function
+# function
 def f(x):
     return np.cos(x) - x
 
-# Function to execute calculations and plot graph
+# execute calculations & plot graph
 def execute_calculations():
     try:
         x_min = float(entry_x_min.get())
         x_max = float(entry_x_max.get())
         initial_guess = float(entry_initial_guess.get())
 
-        # Generate x values for plotting
+        # Generate x values
         x_values = np.linspace(x_min, x_max, 100)
         y_values = f(x_values)
 
-        # Find an approximate root using fsolve
+        # Find approximate root (fsolve)
         approx_root = fsolve(f, initial_guess)[0]
 
-        # Compute the absolute error (compared to numerical solution)
+        # absolute error (compared to numerical solution)
         absolute_error = abs(approx_root - approx_root)
 
-        # Plot the function
+        # plot the function
         fig, ax = plt.subplots(figsize=(8, 5))
         ax.plot(x_values, y_values, label=r'$f(x) = cos(x) - x$', color='blue')
         ax.axhline(0, color='black', linewidth=1)
@@ -37,19 +37,19 @@ def execute_calculations():
         ax.legend()
         ax.grid(True)
 
-        # Display the plot in the Tkinter window
+        # Tkinter window plotting
         canvas = FigureCanvasTkAgg(fig, master=root)
         canvas.draw()
         canvas.get_tk_widget().grid(row=5, column=0, columnspan=2, padx=5, pady=5)
 
-        # Display results
+        # results
         result_text.set(f"Approximate Root: {approx_root:.6f}\nAbsolute Error: {absolute_error:.6f}")
     except ValueError:
         result_text.set("Invalid input. Please enter valid numbers.")
 
 
 
-# Function to use predefined data
+# Function to use initial data
 def use_predefined_data():
     entry_x_min.delete(0, tk.END)
     entry_x_min.insert(0, "0")
@@ -59,7 +59,7 @@ def use_predefined_data():
     entry_initial_guess.insert(0, "0.5")
     execute_calculations()
 
-# Set up the GUI
+# GUI
 root = tk.Tk()
 root.title("Computational Mathematics - Task 1")
 
@@ -80,14 +80,14 @@ entry_initial_guess.grid(row=2, column=1, padx=5, pady=5)
 execute_button = tk.Button(root, text="Execute", command=execute_calculations)
 execute_button.grid(row=3, column=0, columnspan=2, padx=5, pady=5)
 
-# Predefined data button
+# initial data button
 predefined_button = tk.Button(root, text="Use Predefined Data", command=use_predefined_data)
 predefined_button.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
 
-# Result display
+# result
 result_text = tk.StringVar()
 result_label = tk.Label(root, textvariable=result_text, justify="left")
 result_label.grid(row=5, column=0, columnspan=2, padx=5, pady=5)
 
-# Run the GUI loop
+# GUI loop
 root.mainloop()

@@ -4,7 +4,7 @@ from tkinter import ttk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-# Jacobi Method
+# jacobi method
 def jacobi_method(A, b, x0, tol=1e-6, max_iter=100):
     n = len(b)
     x = x0.copy()
@@ -20,7 +20,7 @@ def jacobi_method(A, b, x0, tol=1e-6, max_iter=100):
         x = x_new
     return x, max_iter, iterations
 
-# Function to execute calculations
+# function to execute calculations
 def execute_calculations():
     try:
         A = np.array([
@@ -31,13 +31,13 @@ def execute_calculations():
         b = np.array([float(entry_b1.get()), float(entry_b2.get()), float(entry_b3.get())])
         x0 = np.array([float(entry_x0.get()), float(entry_y0.get()), float(entry_z0.get())])
 
-        # Solve using Jacobi Method
+        # solve using jacobi method
         solution, iterations, iter_values = jacobi_method(A, b, x0)
 
-        # Display results
+        # display results
         result_text.set(f"Solution: {solution}\nIterations: {iterations}")
 
-        # Plot the iterations
+        # plot the iterations
         fig = Figure(figsize=(8, 5))
         ax = fig.add_subplot(111)
         iter_array = np.array(iter_values)
@@ -49,7 +49,7 @@ def execute_calculations():
         ax.legend()
         ax.grid(True)
 
-        # Display the plot in the Tkinter window
+        # display the plot in the tkinter window
         canvas = FigureCanvasTkAgg(fig, master=root)
         canvas.draw()
         canvas.get_tk_widget().grid(row=8, column=0, columnspan=6, padx=5, pady=5)
@@ -57,7 +57,7 @@ def execute_calculations():
     except ValueError:
         result_text.set("Invalid input. Please enter valid numbers.")
 
-# Function to use predefined data
+# function to use predefined data
 def use_predefined_data():
     entry_a11.delete(0, tk.END)
     entry_a11.insert(0, "3")
@@ -91,11 +91,11 @@ def use_predefined_data():
     entry_z0.insert(0, "0")
     execute_calculations()
 
-# Set up the GUI
+# set up the gui
 root = tk.Tk()
 root.title("Computational Mathematics - Task 3")
 
-# Input fields for coefficients
+# input fields for coefficients
 tk.Label(root, text="a11:").grid(row=0, column=0, padx=5, pady=5)
 entry_a11 = tk.Entry(root)
 entry_a11.grid(row=0, column=1, padx=5, pady=5)
@@ -132,7 +132,7 @@ tk.Label(root, text="a33:").grid(row=2, column=4, padx=5, pady=5)
 entry_a33 = tk.Entry(root)
 entry_a33.grid(row=2, column=5, padx=5, pady=5)
 
-# Input fields for constants
+# input fields for constants
 tk.Label(root, text="b1:").grid(row=3, column=0, padx=5, pady=5)
 entry_b1 = tk.Entry(root)
 entry_b1.grid(row=3, column=1, padx=5, pady=5)
@@ -145,7 +145,7 @@ tk.Label(root, text="b3:").grid(row=3, column=4, padx=5, pady=5)
 entry_b3 = tk.Entry(root)
 entry_b3.grid(row=3, column=5, padx=5, pady=5)
 
-# Input fields for initial guess
+# input fields for initial guess
 tk.Label(root, text="x0:").grid(row=4, column=0, padx=5, pady=5)
 entry_x0 = tk.Entry(root)
 entry_x0.grid(row=4, column=1, padx=5, pady=5)
@@ -158,18 +158,18 @@ tk.Label(root, text="z0:").grid(row=4, column=4, padx=5, pady=5)
 entry_z0 = tk.Entry(root)
 entry_z0.grid(row=4, column=5, padx=5, pady=5)
 
-# Execute button
+# execute button
 execute_button = tk.Button(root, text="Execute", command=execute_calculations)
 execute_button.grid(row=5, column=0, columnspan=6, padx=5, pady=5)
 
-# Predefined data button
+# predefined data button
 predefined_button = tk.Button(root, text="Use Predefined Data", command=use_predefined_data)
 predefined_button.grid(row=6, column=0, columnspan=6, padx=5, pady=5)
 
-# Result display
+# result display
 result_text = tk.StringVar()
 result_label = tk.Label(root, textvariable=result_text, justify="left")
 result_label.grid(row=7, column=0, columnspan=6, padx=5, pady=5)
 
-# Run the GUI loop
+# run the gui loop
 root.mainloop()
